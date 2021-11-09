@@ -1,5 +1,5 @@
 # Cointools 
-
+![Generic badge](https://img.shields.io/badge/version-1.0.1-green.svg)
 
 1. Install
 ```
