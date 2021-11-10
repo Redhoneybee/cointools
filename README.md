@@ -1,5 +1,8 @@
 # Cointools 
-![Generic badge](https://img.shields.io/badge/version-1.0.1-green.svg)
+![Generic badge](https://img.shields.io/badge/version-1.0.2-green.svg)
+
+
+- pypi : https://pypi.org/project/cointools/
 
 1. Install
 ```
@@ -49,15 +52,15 @@ you can connect to the "self._conn" variable through the Bitcoin exchange api yo
         self._conn = pyupbit.Upbit(self._key[0], self._key[1])
 ```
 
-#### get_ticker(self) -> str
+#### setter(self) -> str
 This function is a custom input function to obtain the desired ticker.
 
 # " you can make the black list about using ticker. "
 
-* example(get_ticker)
+* example(setter)
 ```
     ...
-    def get_ticker(self) : 
+    def setter(self) : 
         return input("Which ticker do you want ?: ")
 
 ```
