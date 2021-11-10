@@ -1,5 +1,5 @@
 # Cointools 
-![Generic badge](https://img.shields.io/badge/version-1.0.2-green.svg)
+![Generic badge](https://img.shields.io/badge/version-1.0.4-green.svg)
 
 
 - pypi : https://pypi.org/project/cointools/
