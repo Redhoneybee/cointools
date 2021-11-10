@@ -14,7 +14,6 @@ class BaseServiceHandler(object) :
 		self._ticker = ticker 
 		
 		self.setup()
-		
 		try : 
 			self.action()
 		except : 

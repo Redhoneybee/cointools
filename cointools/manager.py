@@ -5,7 +5,7 @@ from cointools.thread import (_NoThread, _Thread)
 
 __all__ = [
     "BaseManagerHandler",
-    "MultiManager"
+    "MultipleManager"
 ]
 def connected(func) : 
     @wraps(func) 
@@ -20,6 +20,7 @@ def connected(func) :
 
     return check
 
+
 class ManagerException(Exception) : 
     pass 
  
@@ -29,7 +30,7 @@ class BaseManagerHandler(object) :
         self._key = key
         self._service_class = service_class
         self._event = threading.Event()
-
+        self._shutdown = False
 
     @connected 
     def start(self) :
@@ -37,7 +38,7 @@ class BaseManagerHandler(object) :
             self._event.clear()
             
             try :
-                while True : 
+                while not self._shutdown : 
                     self.start_no_block()
             except :
                 raise ManagerException()
@@ -55,7 +56,7 @@ class BaseManagerHandler(object) :
         pass
 
     
-    def get_ticker(self) : 
+    def setter(self) : 
         """
             overide
             
@@ -80,9 +81,13 @@ class BaseManagerHandler(object) :
         return True
 
     def start_no_block(self) : 
-        ticker = self.get_ticker()
+        ticker = self.setter()
+        
+        if ticker is None :
+            self._shutdown = True
+            raise NotImplementedError("setter() is undefined")
 
-        if self.verify_to_ticker(ticker) :
+        if self.verify_to_ticker(ticker) and ticker is not None :
             try :
                 self.process_service(ticker)
             except :
@@ -111,7 +116,7 @@ class BaseManagerHandler(object) :
         self.close() 
 
 
-class MultiManager(BaseManagerHandler) :
+class MultipleManager(BaseManagerHandler) :
     _threads = _NoThread()
     
     _max_thread_size = 5
@@ -134,9 +139,9 @@ class MultiManager(BaseManagerHandler) :
         if hasattr(self, "_threads") :
             vars(self).setdefault("_threads", _Thread())
         else : 
-            _threads = _Thread()
+            self._threads = _Thread()
 
-        assert len(_threads) <= self._max_thread_size
+        assert len(self._threads) <= self._max_thread_size
 
         t = threading.Thread(target = self._run, args = (ticker, )) 
         
